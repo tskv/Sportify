@@ -2,8 +2,8 @@
 
 <odoo>
   <record id="view_subscription_list" model="ir.ui.view">
-    <field name="name">gym.subscription.list</field>
-    <field name="model">gym.subscription</field>
+    <field name="name">sportify.subscription.list</field>
+    <field name="model">sportify.subscription</field>
     <field name="type">list</field>
     <field name="arch" type="xml">
       <list>
@@ -16,8 +16,8 @@
   </record>
 
   <record id="view_subscription_form" model="ir.ui.view">
-    <field name="name">gym.subscription.form</field>
-    <field name="model">gym.subscription</field>
+    <field name="name">sportify.subscription.form</field>
+    <field name="model">sportify.subscription</field>
     <field name="type">form</field>
     <field name="arch" type="xml">
       <form>
@@ -39,11 +39,12 @@
   </record>
 
   <record id="action_subscription" model="ir.actions.act_window">
-    <field name="name">Abonnements</field>
-    <field name="res_model">gym.subscription</field>
+    <field name="name">Subscriptions</field>
+    <field name="res_model">sportify.subscription</field>
     <field name="view_mode">list,form</field>
   </record>
 
-  <menuitem id="menu_gym_root" name="Salle de Sport"/>
-  <menuitem id="menu_gym_subscription" name="Abonnements" parent="menu_gym_root" action="action_subscription"/>
+  <menuitem name="Subscription" id="sportify_subscription_menu"
+              parent="sportify_menu_root"
+              action="action_subscription" sequence="3"/>
 </odoo>
