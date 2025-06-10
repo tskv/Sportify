@@ -1,65 +1,122 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-  <data>
+    <data>
 
-    <record model="ir.ui.view" id="sportify_member_list">
-      <field name="name">sportify.member.list</field>
-      <field name="model">sportify.member</field>
-      <field name="arch" type="xml">
-          <list string="Members">
-              <field name="name"/>
-              <field name="mail"/>
-              <field name="phone"/>
-              <field name="birth_date"/>
-              <field name="inscription_date"/> <!-- change to membership -->
-              <field name="inscription_date"/>
-          </list>
-      </field>
-    </record>
+        <record model="ir.ui.view" id="sportify_member_search">
+            <field name="name">sportify.member.search</field>
+            <field name="model">sportify.member</field>
+            <field name="arch" type="xml">
+                <search string="Members">
+                    <filter
+                            name="inactive"
+                            string="Archived"
+                            domain="[('active', '=', False)]"/>
+                </search>
+            </field>
+        </record>
 
-    <record model="ir.ui.view" id="sportify_member_form">
-        <field name="name">sportify.member.form</field>
-        <field name="model">sportify.member</field>
-        <field name="arch" type="xml">
-            <form string="Members">
-                <sheet>
-                    <div>
-                        <h1>
-                            <field name="name" placeholder="New member"/>
-                        </h1>
-                    </div>
-                    <group>
+        <record model="ir.ui.view" id="sportify_member_list">
+            <field name="name">sportify.member.list</field>
+            <field name="model">sportify.member</field>
+            <field name="arch" type="xml">
+                <list string="Members">
+                    <field name="name"/>
+                    <field name="mail"/>
+                    <field name="phone"/>
+                    <field name="birth_date"/>
+                    <field name="subscription_ids"/>
+                    <field name="inscription_date"/>
+                </list>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="sportify_member_form">
+            <field name="name">sportify.member.form</field>
+            <field name="model">sportify.member</field>
+            <field name="arch" type="xml">
+                <form string="Members">
+                    <sheet>
+                        <widget name="web_ribbon" title="Archived" bg_color="text-bg-danger" invisible="active"/>
+                        <field name="photo" widget="image" class="oe_avatar"/>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" placeholder="New member"/>
+                            </h1>
+                        </div>
                         <group>
-                            <field name="name"/>
-                            <field name="mail"/>
-                            <field name="phone"/>
-                            <field name="birth_date"/>
+                            <group>
+                                <field name="mail"/>
+                                <field name="phone"/>
+                                <field name="inscription_date"/>
+                            </group>
+                            <group>
+                                <field name="birth_date"/>
+                                <field name="age"/>
+                            </group>
                         </group>
-                        <group>
-                            <field name="inscription_date"/>
-                            <field name="inscription_date"/>
-                        </group>
-                    </group>
-                    <notebook>
-                    </notebook>
-                </sheet>
-            </form>
-        </field>
-    </record>
+                        <notebook>
+                            <page string="Subscriptions">
+                                <field name="subscription_ids"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <chatter/>
+                </form>
+            </field>
+        </record>
 
 
-    <record model="ir.actions.act_window" id="open_view_sportify_member_action">
-      <field name="name">Members</field>
-      <field name="res_model">sportify.member</field>
-      <field name="view_mode">list,form</field>
-    </record>
+        <record model="ir.ui.view" id="sportify_member_view_kanban">
+            <field name="name">sportify.member</field>
+            <field name="model">sportify.member</field>
+            <field name="arch" type="xml">
+                <kanban highlight_color="color" string="Members">
+                    <templates>
+                        <t t-name="card" class="flex-row">
+                            <widget name="web_ribbon" title="Archived" bg_color="text-bg-danger" invisible="active"/>
 
-    <menuitem name="Sportify" id="sportify_menu_root"
+                            <aside class="o_kanban_aside_full">
+                                <div class="o_kanban_image_fill position-relative w-100">
+                                    <field name="photo" class="h-100" widget="image"
+                                           options="{'img_class': 'object-fit-cover'}"/>
+                                </div>
+                            </aside>
+
+                            <main class="ps-2 ps-md-0">
+                                <div class="mb-1">
+                                    <field name="name" class="mb-0 fw-bold fs-5"/>
+                                </div>
+                                <div class="mb-1">
+                                    <field name="phone"/>
+                                </div>
+                                <div>
+                                    <p>Age:
+                                        <field name="age"/>
+                                    </p>
+                                </div>
+                                <footer>
+                                    <div/>
+                                </footer>
+                            </main>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+
+        <record model="ir.actions.act_window" id="open_view_sportify_member_action">
+            <field name="name">Members</field>
+            <field name="res_model">sportify.member</field>
+            <field name="view_mode">kanban,list,form,search</field>
+        </record>
+
+        <menuitem name="Sportify" id="sportify_menu_root"
                   web_icon="sportify,static/description/icon.png"/>
 
-    <menuitem name="Members" id="sportify_member_menu"
-              parent="sportify_menu_root"
-              action="open_view_sportify_member_action" sequence="1"/>
+        <menuitem name="Members" id="sportify_member_menu"
+                  parent="sportify_menu_root"
+                  action="open_view_sportify_member_action" sequence="1"/>
 
-  </data>
+    </data>
 </odoo>

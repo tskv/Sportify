@@ -14,5 +14,6 @@
         "views/sportify_member_views.xml",
         "views/sportify_subscription_views.xml",
         "views/group_courses_view.xml",
+        "views/sportify_trainer_views.xml",
     ],
 }
