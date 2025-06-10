@@ -1,17 +1,17 @@
 # -*- coding: utf-8 -*-
+
+
 {
-    'name': "sportify",
-
-    'summary': "Group project",
-
-    'version': '0.1',
-
-    # any module necessary for this one to work correctly
-    'depends': ['base'],
-
-    # always loaded
+    'name': 'sportify',
+    'version': '1.0',
+    'category': 'Sport',
+    'depends': ['base', 'mail'],
+    'application': True,
+    'installable': True,
+    'images': ['static/description/icon.png'],
     'data': [
-        'security/ir.model.access.csv',
-        'views/sportify_member_views.xml',
-    ],
+    'security/ir.model.access.csv',
+    'views/sportify_member_views.xml',
+    'views/gym_subscription_views.xml',
+],
 }
