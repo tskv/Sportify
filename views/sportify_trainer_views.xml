@@ -57,15 +57,11 @@
             <field name="res_model">sportify.trainer</field>
             <field name="view_mode">kanban,list,form</field>
         </record>
-        <!--menu item root-->
-        <menuitem
-                id="rootmenusportify"
-                name="Sportify"
-                web_icon="Sportify,static/description/icon.png"/>
+
         <!--menu item trainer-->
-        <menuitem id="sportifytrainer_menuitem"
-                  parent="rootmenusportify"
-                  action="sportify_trainer_action"
+        <menuitem id="sportifytrainer_menuitem" name="Trainers"
+                  parent="sportify_menu_root"
+                  action="sportify_trainer_action"  sequence="2"
         />
     </data>
 </odoo>

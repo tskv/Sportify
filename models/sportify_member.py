@@ -14,6 +14,7 @@ class SportifyMember(models.Model):
     inscription_date = fields.Date(string='Inscription date')
     photo = fields.Binary(string='Photo')
     age = fields.Integer(string='Age', compute = '_compute_age')
+    color = fields.Integer(compute = '_compute_color')
 
     @api.model
     def default_get(self,fields_list):
@@ -30,6 +31,15 @@ class SportifyMember(models.Model):
                 record.age = today.year - record.birth_date.year - ((today.month, today.day) < (record.birth_date.month, record.birth_date.day))
             else:
                 record.age = 0
+
+    @api.depends('subscription_id')
+    def _compute_color(self):
+        for record in self:
+            if record.subscription_id:
+                if record.subscription_id.type == 'vip':
+                    record.color = 7
+                else:
+                    record.color = 0
 
 
 

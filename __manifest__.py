@@ -12,6 +12,7 @@
     'data': [
     'security/ir.model.access.csv',
     'views/sportify_member_views.xml',
+    'views/sportify_trainer_views.xml',
     'views/sportify_subscription_views.xml',
 ],
 }

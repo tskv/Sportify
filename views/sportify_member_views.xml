@@ -72,7 +72,7 @@
             <field name="name">sportify.member</field>
             <field name="model">sportify.member</field>
             <field name="arch" type="xml">
-                <kanban string="Members">
+                <kanban highlight_color="color" string="Members">
                     <templates>
                         <t t-name="card" class="flex-row">
                             <widget name="web_ribbon" title="Archived" bg_color="text-bg-danger" invisible="active"/>
