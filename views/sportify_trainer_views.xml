@@ -1,6 +1,22 @@
 <?xml version="1.0"?>
 <odoo>
     <data>
+        <!-- view search -->
+        <record id="view_sportify_trainer_search" model="ir.ui.view">
+            <field name="name">sportify.trainer.search</field>
+            <field name="model">lsportify.trainer</field>
+            <field name="arch" type="xml">
+                <search string="Trainers">
+                    <field name="name" string="name"/>
+                    <field name="email" string="email"/>
+<!--                    <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>-->
+                    <filter name="speciality" string="Last 5 Years"
+                            domain="[( 'publication_date', '&gt;', (context_today()+relativedelta(years=-5)).strftime('%Y-%m-%d') )]"/>
+                    <filter name="quantity" string="is available"
+                            domain="[( 'quantity', '&gt;', 1 )]"/>
+                </search>
+            </field>
+        </record>
         <!--        kanban view-->
         <record id="view_sportify_trainer_kanban" model="ir.ui.view">
             <field name="name">sportify.trainer.kanban</field>
@@ -10,12 +26,20 @@
                 <kanban class="o_kanban_mobile" archivable="false" js_class="crm_kanban" sample="1">
                     <!--                    <progressbar field="activity_state" colors='{"planned": "success", "today": "warning", "overdue": "danger"}'/>-->
                     <templates>
-                        <t t-name="card">
-                            <field name="name" class="fw-bold fs-5"/>
-                            <field name="email"/>
-                            <!--                            <field name="phone" widget="many2many_tags" options="{'color_field': 'color'}"/>-->
-                            <field name="phone"/>
-                            <field name="speciality"/>
+                        <t t-name="card" class="flex-row">
+                            <aside class="o_kanban_aside_full">
+                                <div class="o_kanban_image_fill position-relative w-100">
+                                    <field name="trainer_photo" alt="Contact image" class="h-100" widget="image"
+                                           options="{'img_class': 'object-fit-cover'}"/>
+                                </div>
+                            </aside>
+                            <main class="ps-2 ps-md-0">
+                                <field name="name" class="fw-bold fs-5"/>
+                                <field name="email"/>
+                                <!--                            <field name="phone" widget="many2many_tags" options="{'color_field': 'color'}"/>-->
+                                <field name="phone"/>
+                                <field name="speciality"/>
+                            </main>
                         </t>
                     </templates>
                 </kanban>
@@ -46,6 +70,9 @@
                             <field name="email"/>
                             <field name="phone"/>
                             <field name="speciality"/>
+                            <field name="trainer_photo"/>
+
+
                         </group>
                     </sheet>
                 </form>

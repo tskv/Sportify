@@ -8,3 +8,4 @@ class SportifyTrainer (models.Model):
     email = fields.Char(string="E-mail", required=True)
     phone = fields.Char(string="Phone number", required=True)
     speciality = fields.Char(string="Training Speciality", required=True)
+    trainer_photo = fields.Image("Trainer Photo")
