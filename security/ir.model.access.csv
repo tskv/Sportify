@@ -1,3 +1,6 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_gym_subscription_user,gym.subscription,model_gym_subscription,,1,1,1,0
-access_gym_subscription_admin,gym.subscription,model_gym_subscription,,1,1,1,1
+access_gym_subscription_user,gym.subscription,model_gym_subscription,base.group_user,1,1,1,0
+access_gym_subscription_admin,gym.subscription,model_gym_subscription,base.group_system,1,1,1,1
+access_sportify_member_readonly,sportify_member_readonly,model_sportify_member,base.group_user,1,0,0,0
+access_sportify_member_admin,sportify_member_admin,model_sportify_member,base.group_system,1,1,1,1
+
