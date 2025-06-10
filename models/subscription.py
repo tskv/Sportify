@@ -1,0 +1,37 @@
+from odoo import models, fields, api
+
+class GymSubscription(models.Model):
+    _name = 'gym.subscription'
+    _description = 'Abonnement Salle de Sport'
+    _inherit = ['mail.thread']
+
+    name = fields.Char(required=True)
+    duration_months = fields.Integer(string='Durée (mois)')
+    type = fields.Selection([
+        ('basic', 'Basic'),
+        ('premium', 'Premium'),
+        ('vip', 'VIP')
+    ], required=True)
+    price = fields.Float()
+    access = fields.Selection([
+        ('10j', '10 jours'),
+        ('30j', '30 jours'),
+        ('illimite', 'Illimité')
+    ])
+    description = fields.Text()
+
+    @api.onchange('type')
+    def _onchange_type(self):
+        if self.type == 'basic':
+            self.access = '10j'
+        elif self.type == 'premium':
+            self.access = '30j'
+        elif self.type == 'vip':
+            self.access = 'illimite'
+
+    @api.model
+    def create(self, vals):
+        record = super().create(vals)
+        message = f"Nouvel abonnement créé : {record.name}, {record.type}, {record.price}€"
+        record.message_post(body=message)
+        return record
