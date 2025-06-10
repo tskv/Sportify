@@ -59,9 +59,10 @@
         </record>
 
         <!--menu item trainer-->
-        <menuitem id="sportifytrainer_menuitem"
+        <menuitem id="sportifytrainer_menuitem" name="Trainers"
                   parent="sportify_menu_root"
-                  action="sportify_trainer_action"
+                  action="sportify_trainer_action"  sequence="2"
+
         />
     </data>
 </odoo>
