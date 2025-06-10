@@ -59,7 +59,7 @@
 
     <menuitem name="Members" id="sportify_member_menu"
               parent="sportify_menu_root"
-              action="open_view_sportify_member_action" sequence="2"/>
+              action="open_view_sportify_member_action" sequence="1"/>
 
   </data>
 </odoo>
