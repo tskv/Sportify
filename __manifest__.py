@@ -2,16 +2,17 @@
 
 
 {
-    'name': 'sportify',
-    'version': '1.0',
-    'category': 'Sport',
-    'depends': ['base', 'mail'],
-    'application': True,
-    'installable': True,
-    'images': ['static/description/icon.png'],
-    'data': [
-    'security/ir.model.access.csv',
-    'views/sportify_member_views.xml',
-    'views/sportify_subscription_views.xml',
-],
+    "name": "sportify",
+    "version": "1.0",
+    "category": "Sport",
+    "depends": ["base", "mail"],
+    "application": True,
+    "installable": True,
+    "images": ["static/description/icon.png"],
+    "data": [
+        "security/ir.model.access.csv",
+        "views/sportify_member_views.xml",
+        "views/sportify_subscription_views.xml",
+        "views/group_courses_view.xml",
+    ],
 }
