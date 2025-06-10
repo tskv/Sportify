@@ -11,7 +11,7 @@
               <field name="mail"/>
               <field name="phone"/>
               <field name="birth_date"/>
-              <field name="inscription_date"/> <!-- change to membership -->
+              <field name="subscription_id"/>
               <field name="inscription_date"/>
           </list>
       </field>
@@ -34,9 +34,10 @@
                             <field name="mail"/>
                             <field name="phone"/>
                             <field name="birth_date"/>
+                            <field name="age"/>
                         </group>
                         <group>
-                            <field name="inscription_date"/>
+                            <field name="subscription_id"/>
                             <field name="inscription_date"/>
                         </group>
                     </group>
@@ -48,10 +49,46 @@
     </record>
 
 
+        <record model="ir.ui.view" id="sportify_member_view_kanban">
+            <field name="name">sportify.member</field>
+            <field name="model">sportify.member</field>
+            <field name="arch" type="xml">
+                <kanban string="Members">
+                    <templates>
+                        <t t-name="card" class="flex-row">
+                            <widget name="web_ribbon" title="Archived" bg_color="text-bg-danger" invisible="active"/>
+
+                            <aside class="o_kanban_aside_full">
+                                <div class="o_kanban_image_fill position-relative w-100">
+                                    <field name="photo" class="h-100" widget="image" options="{'img_class': 'object-fit-cover'}"/>
+                                </div>
+                            </aside>
+
+                            <main class="ps-2 ps-md-0">
+                                <div class="mb-1">
+                                    <field name="name" class="mb-0 fw-bold fs-5"/>
+                                </div>
+                                <div class="mb-1">
+                                    <field name="subscription_id" class="fw-bold"/>
+                                </div>
+                                <div>
+                                    <p>Age: <field name="age"/></p>
+                                </div>
+                                <footer>
+                                    <div/>
+                                </footer>
+                            </main>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+
     <record model="ir.actions.act_window" id="open_view_sportify_member_action">
       <field name="name">Members</field>
       <field name="res_model">sportify.member</field>
-      <field name="view_mode">list,form</field>
+      <field name="view_mode">kanban,list,form</field>
     </record>
 
     <menuitem name="Sportify" id="sportify_menu_root"
