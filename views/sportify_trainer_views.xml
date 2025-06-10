@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+<!--list view-->
+        <record>
+
+        </record>
+<!--action-->
+        <record id="sportify_trainer_action" model="ir.actions.act_window">
+            <field name="name">Trainers</field>
+            <field name="res_model">sportify.trainer</field>
+            <field name="view_mode">list,form</field>
+        </record>
+<!--menu item root-->
+        <menuitem
+                id="rootmenusportify"
+                name="Sportify"
+                web_icon="Sportify,static/description/icon.png"/>
+<!--menu item trainer-->
+        <menuitem id="sportifytrainer_menuitem"
+                  parent="rootmenusportify"
+                  action="sportify_trainer_action"
+                  />
+    </data>
+</odoo>
