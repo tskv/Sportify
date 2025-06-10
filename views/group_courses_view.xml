@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <record id="group_courses_view_kanban" model="ir.ui.view">
+        <field name="name">group.courses.view.kanban</field>
+        <filed name="group">group.courses</filed>
+        <field name="arch" type="xml">
+
+
+
+
+
+
+
+
+
+    </record>
+
+
+
+
+
+
+</odoo>
