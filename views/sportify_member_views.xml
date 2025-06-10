@@ -72,6 +72,9 @@
                                     <field name="subscription_id" class="fw-bold"/>
                                 </div>
                                 <div>
+                                    <field name="phone"/>
+                                </div>
+                                <div>
                                     <p>Age: <field name="age"/></p>
                                 </div>
                                 <footer>

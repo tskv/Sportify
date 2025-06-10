@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-from datetime import date
-
 from odoo import models, fields, api
 
 class SportifyMember(models.Model):
@@ -17,13 +15,19 @@ class SportifyMember(models.Model):
     photo = fields.Binary()
     age = fields.Integer(string='age', compute = '_compute_age')
 
+    @api.model
+    def default_get(self,fields_list):
+        defaults = super().default_get(fields_list)
+        if 'inscription_date' in fields_list and not defaults.get('inscription_date'):
+            defaults['inscription_date'] = fields.Date.today()
+        return defaults
 
     @api.depends('birth_date')
     def _compute_age(self):
         for record in self:
             if record.birth_date:
-                today = date.today()
-                record.age = today.year - record.birth_date.year - ((today.month,today.day) < (record.birth_date.month, record.birth_date.day))
+                today = fields.Date.today()
+                record.age = today.year - record.birth_date.year - ((today.month, today.day) < (record.birth_date.month, record.birth_date.day))
             else:
                 record.age = 0
 
