@@ -19,6 +19,11 @@ class SportifySubscribtion(models.Model):
         ('30j', '30 jours'),
         ('illimite', 'Illimité')
     ])
+    start_date = fields.Date(string='Start date')
+    state= fields.Selection([
+        ('activ', 'Active'),
+        ('expired', 'Expired')
+    ], default='activ')
     description = fields.Text()
 
     @api.onchange('type')
@@ -29,6 +34,13 @@ class SportifySubscribtion(models.Model):
             self.access = '30j'
         elif self.type == 'vip':
             self.access = 'illimite'
+
+    @api.model
+    def default_get(self, fields_list):
+        defaults = super().default_get(fields_list)
+        if 'start_date' in fields_list and not defaults.get('start_date'):
+            defaults['start_date'] = fields.Date.today()
+        return defaults
 
     @api.model_create_multi
     def create(self, vals):
