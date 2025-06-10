@@ -1,21 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <odoo>
-    <record id="group_courses_view_kanban" model="ir.ui.view">
-        <field name="name">group.courses.view.kanban</field>
-        <filed name="group">group.courses</filed>
+    <record id="view_cours_collectif_form" model="ir.ui.view">
+        <field name="name">sportify.cours.collectif.form</field>
+        <field name="model">sportify.cours_collectif</field>
+        <field name="type">form</field>
         <field name="arch" type="xml">
-
-
-
-
-
-
-
-
-
+            <form string="Cours Collectif">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="coach_id"/>
+                        <field name="date"/>
+                        <field name="start_time"/>
+                        <field name="end_time"/>
+                        <field name="duration" readonly="1"/>
+                        <field name="fitness_room_id"/>
+                        <field name="max_number_participants"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
     </record>
 
+    <record id="view_cours_collectif_list" model="ir.ui.view">
+        <field name="name">sportify.cours.collectif.list</field>
+        <field name="model">sportify.subscription</field>
+        <field name="type">list</field>
+        <field name="arch" type="xml">
+            <list>
+              <field name="name"/>
+              <field name="coach_id"/>
+              <field name="date"/>
+              <field name="duration"/>
+              <field name="fitness_room_id"/>
+              <field name="members_number"/>
+            </list>
+        </field>
+    </record>
 
 
 
