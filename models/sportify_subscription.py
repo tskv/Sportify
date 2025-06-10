@@ -5,7 +5,8 @@ class SportifySubscribtion(models.Model):
     _description = 'Abonnement Salle de Sport'
     _inherit = ['mail.thread']
 
-    name = fields.Char(required=True)
+    name = fields.Char(string='Name',required=True)
+    member_id = fields.Many2one(comodel_name='sportify.member',required=True)
     duration_months = fields.Integer(string='Durée (mois)')
     type = fields.Selection([
         ('basic', 'Basic'),
@@ -32,6 +33,6 @@ class SportifySubscribtion(models.Model):
     @api.model_create_multi
     def create(self, vals):
         record = super().create(vals)
-        message = f"Nouvel abonnement créé : {record.name}, {record.type}, {record.price}€"
+        message = f"Nouvel abonnement créé : {record.member_id.name}, {record.type}, {record.price}€"
         record.message_post(body=message)
         return record
