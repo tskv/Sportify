@@ -11,10 +11,6 @@
                             name="inactive"
                             string="Archived"
                             domain="[('active', '=', False)]"/>
-                    <group expand="0" string="Group By">
-                        <filter string="Subscription" name="subscription_id" context="{'group_by': 'subscription_id'}"/>
-                    </group>
-                    <field name="subscription_id"/>
                 </search>
             </field>
         </record>
@@ -28,7 +24,7 @@
                     <field name="mail"/>
                     <field name="phone"/>
                     <field name="birth_date"/>
-                    <field name="subscription_id"/>
+                    <field name="subscription_ids"/>
                     <field name="inscription_date"/>
                 </list>
             </field>
@@ -49,20 +45,22 @@
                         </div>
                         <group>
                             <group>
-                                <field name="name"/>
                                 <field name="mail"/>
                                 <field name="phone"/>
+                                <field name="inscription_date"/>
+                            </group>
+                            <group>
                                 <field name="birth_date"/>
                                 <field name="age"/>
                             </group>
-                            <group>
-                                <field name="subscription_id"/>
-                                <field name="inscription_date"/>
-                            </group>
                         </group>
                         <notebook>
+                            <page string="Subscriptions">
+                                <field name="subscription_ids"/>
+                            </page>
                         </notebook>
                     </sheet>
+                    <chatter/>
                 </form>
             </field>
         </record>
@@ -89,9 +87,6 @@
                                     <field name="name" class="mb-0 fw-bold fs-5"/>
                                 </div>
                                 <div class="mb-1">
-                                    <field name="subscription_id" class="fw-bold"/>
-                                </div>
-                                <div>
                                     <field name="phone"/>
                                 </div>
                                 <div>
