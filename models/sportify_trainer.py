@@ -7,5 +7,5 @@ class SportifyTrainer (models.Model):
     name = fields.Char(string="Name", required=True)
     email = fields.Char(string="E-mail", required=True)
     phone = fields.Char(string="Phone number", required=True)
-    speciality = fields.Char(string="Training Speciality", required=True)
+    speciality = fields.Selection([('judo', 'Judo'), ('yoga', 'Yoga'), ('gym', 'Gym'), ('tennis', 'Tennis')])
     trainer_photo = fields.Image("Trainer Photo")
