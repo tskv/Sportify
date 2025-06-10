@@ -1,4 +1,4 @@
 # -*- coding: utf-8 -*-
 
-from . import subscription
+from . import sportify_member, sportify_subscription
 

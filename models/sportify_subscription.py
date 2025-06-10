@@ -1,7 +1,7 @@
 from odoo import models, fields, api
 
-class GymSubscription(models.Model):
-    _name = 'gym.subscription'
+class SportifySubscribtion(models.Model):
+    _name = 'sportify.subscription'
     _description = 'Abonnement Salle de Sport'
     _inherit = ['mail.thread']
 
@@ -29,7 +29,7 @@ class GymSubscription(models.Model):
         elif self.type == 'vip':
             self.access = 'illimite'
 
-    @api.model
+    @api.model_create_multi
     def create(self, vals):
         record = super().create(vals)
         message = f"Nouvel abonnement créé : {record.name}, {record.type}, {record.price}€"
