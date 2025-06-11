@@ -15,10 +15,20 @@
                             name="VIP"
                             string="VIP"
                             domain="[('member_type', '=', 'VIP')]"/>
+                    <filter
+                            name="Premium"
+                            string="Premium"
+                            domain="[('member_type', '=', 'Premium')]"/>
+                    <filter
+                            name="Basic"
+                            string="Basic"
+                            domain="[('member_type', '=', 'Basic')]"/>
 
                 <group expand="0" string="Group By">
-                        <filter string="Member type" name="member_type" context="{'group_by': 'member_type'}"/>
+                        <filter string="Subscription type" name="member_type" context="{'group_by': 'member_type'}"/>
                 </group>
+                <field name="name"/>
+                <field name="member_type"/>
                 </search>
             </field>
         </record>
@@ -70,7 +80,6 @@
                             <group>
                                 <field name="birth_date"/>
                                 <field name="age"/>
-                                <field name="number_active_subscriptions"/>
                                 <field name="member_type"/>
                             </group>
                         </group>
@@ -90,10 +99,12 @@
             <field name="name">sportify.member</field>
             <field name="model">sportify.member</field>
             <field name="arch" type="xml">
-                <kanban highlight_color="color" string="Members">
+                <kanban string="Members">
                     <templates>
                         <t t-name="card" class="flex-row">
                             <widget name="web_ribbon" title="Archived" bg_color="text-bg-danger" invisible="active"/>
+                            <widget name="web_ribbon" title="VIP" bg_color="text-bg-success" invisible="member_type != 'VIP'"/>
+
 
                             <aside class="o_kanban_aside_full">
                                 <div class="o_kanban_image_fill position-relative w-100">

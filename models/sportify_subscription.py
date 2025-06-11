@@ -9,6 +9,8 @@ class SportifySubscription(models.Model):
     @api.model
     def get_default_name(self):
         last_subscription =  self.search([], order="name desc", limit=1)
+        if not last_subscription:
+            return 'S0001'
         return 'S'+str(f"{int(last_subscription.name[1:])+1:04}")
 
    # number = fields.Integer(default=get_default_number)
@@ -29,9 +31,9 @@ class SportifySubscription(models.Model):
     start_date = fields.Date(string='Start date')
     end_date = fields.Date(string='End date', compute = '_compute_end_date')
     state = fields.Selection([
-        ('activ', 'Active'),
+        ('ongoing', 'Ongoing'),
         ('expired', 'Expired')
-    ], default='activ')
+    ], default='ongoing', required=True)
     description = fields.Text()
 
     @api.onchange('type')
@@ -63,26 +65,19 @@ class SportifySubscription(models.Model):
     @api.model_create_multi
     def create(self, vals_list):
         for vals in vals_list:
-            member_active_subscriptions = self.search([('member_id','=',self.member_id.id)])
-            if not member_active_subscriptions or len(member_active_subscriptions) < 1 :
-                record = super().create(vals)
-                message = f"New subscription information: {record.member_id.name}, {record.type}, {record.price}€,{len(member_active_subscriptions)},{self.member_id.id}"
-                record.message_post(body=message)
-                return record
-            else:
-                message = "This member already has an active subscription"
-                self.message_post(body=message)
-    '''
-
-    @api.model_create_multi
-    def create(self, vals_list):
-        for vals in vals_list:
             member = self.env['sportify.member'].search([('id', '=', vals.get('member_id'))])
             if member.number_active_subscriptions < 1:
                 record = super().create(vals)
                 message = f"New subscription information: {record.member_id.name}, {record.type}, {record.price}€,{vals.get('member_id')},{member.number_active_subscriptions }"
                 record.message_post(body=message)
                 return record
-            else:
-                message = "This member already has an active subscription"
-                member.message_post(body=message)
+    '''
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            record = super().create(vals)
+            message = f"New subscription information: {record.member_id.name}, {record.type}, {record.price}€"
+            record.message_post(body=message)
+            return record
+
