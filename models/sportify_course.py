@@ -18,7 +18,7 @@ class SportifyCourse(models.Model):
     )
     number_members = fields.Integer(string="Total Member")
     notes = fields.Text("Notes")
-    active = fields.Boolean("Actif", default=True)
+    active = fields.Boolean("Activ", default=True)
     member_count = fields.Integer("Number of Member", compute="_compute_total_member")
     course_photo = fields.Image("Course Photo")
 
@@ -34,3 +34,9 @@ class SportifyCourse(models.Model):
                 record.duration = max(0, record.end_time - record.start_time)
             else:
                 record.duration = 0
+
+    def cancel_course(self):
+        self.active = False
+        message_text = "The course {} planed on {:%d-%m-%Y} at {}h is canceled".format(self.name, self.date, self.start_time)
+        self.trainer_id.message_post(body=message_text)
+

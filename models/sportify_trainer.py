@@ -4,6 +4,7 @@ from odoo import fields, models, api
 class SportifyTrainer(models.Model):
     _name = "sportify.trainer"
     _description = "sport center management"
+    _inherit = ['mail.thread']
 
     name = fields.Char(string="Name", required=True)
     email = fields.Char(string="E-mail", required=True)
@@ -25,9 +26,11 @@ class SportifyTrainer(models.Model):
             record.courses_count = len(record.course_ids)
 
     def action_get_courses(self):
+        self.ensure_one()
         return {
             "name": "Trainer courses",
             "view_mode": "list,form",
             "res_model": "sportify.course",
             "type": "ir.actions.act_window",
+            'domain': [('id', 'in', self.course_ids.ids)],
         }
