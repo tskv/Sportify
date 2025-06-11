@@ -18,6 +18,8 @@ class SportifyMember(models.Model):
     age = fields.Integer(string='Age', compute = '_compute_age')
     color = fields.Integer(compute = '_compute_color', store='True')
     member_type = fields.Char(string='Member type', compute = '_compute_member_type', store='True')
+    course_ids = fields.Many2many(string="Courses", comodel_name="sportify.course")
+    course_count = fields.Integer(compute='_compute_course_count')
 
     @api.model
     def default_get(self,fields_list):
@@ -65,6 +67,24 @@ class SportifyMember(models.Model):
         record.message_post(body=message)
         return record
 
+    @api.depends('course_ids')
+    def _compute_course_count(self):
+        for member in self:
+            member.course_count = len(member.course_ids)
+
+    def action_open_courses(self):
+        self.ensure_one()
+        action = {
+            'type': 'ir.actions.act_window',
+            'name': 'Courses',
+            'res_model': 'sportify.course',
+            'domain': [('id', 'in', self.course_ids)],
+            'views': [(False, 'list')],
+            'context': {}
+        }
+        return action
+
+
     @api.model
     def _action_cron_subscription_expired_soon(self):
         for member in self.search([]):
@@ -72,6 +92,8 @@ class SportifyMember(models.Model):
                 if  fields.Date.add(subscription.end_date,weeks=-1) == fields.Date.today():
                     message_text = "The subscription expires in 1 week"
                     member.message_post(body=message_text)
+
+
 
 
 

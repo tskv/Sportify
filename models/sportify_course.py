@@ -1,9 +1,9 @@
 from odoo import models, fields, api
 
 
-class SportifyCourses(models.Model):
-    _name = "sportify.courses"
-    _description = "Cours Collectifs"
+class SportifyCourse(models.Model):
+    _name = "sportify.course"
+    _description = "Cours Collectif"
 
     name = fields.Char(required=True)
     trainer_id = fields.Many2one(
@@ -15,7 +15,7 @@ class SportifyCourses(models.Model):
     end_time = fields.Float("End time", required=True)
     max_number_participants = fields.Integer(string="Max number participants")
     fitness_room = fields.Char(string="Fitness room")
-    members_ids = fields.Many2many(string="Membres inscrits")
+    members_ids = fields.Many2many(string="Membres inscrits", comodel_name='sportify.member')
     number_members = fields.Integer(string="Nombre membres inscrits")
     notes = fields.Text("Notes")
     active = fields.Boolean("Actif", default=True)

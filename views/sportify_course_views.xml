@@ -5,7 +5,7 @@
     <data>
   <record id="sportify_courses_action" model="ir.actions.act_window">
             <field name="name">Courses</field>
-            <field name="res_model">sportify.courses</field>
+            <field name="res_model">sportify.course</field>
             <field name="view_mode">kanban,list,form</field>
         </record>
 

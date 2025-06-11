@@ -11,8 +11,6 @@
                 <field name="member_id"/>
                 <field name="type"/>
                 <field name="price"/>
-                <field name="start_date"/>
-                <field name="end_date"/>
                 <field name="duration_months"/>
                 <field name="state"/>
             </list>
