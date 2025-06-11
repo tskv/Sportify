@@ -1,8 +1,8 @@
 from odoo import models, fields, api
 
 
-class SportifyCourses(models.Model):
-    _name = "sportify.courses"
+class SportifyCourse(models.Model):
+    _name = "sportify.course"
     _description = "Cours Collectifs"
 
     name = fields.Char(required=True)
