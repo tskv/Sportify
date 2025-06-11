@@ -8,17 +8,26 @@
             <field name="arch" type="xml">
                 <search string="Members">
                     <filter
+                            name="VIP"
+                            string="VIP"
+                            domain="[('subscription_type', '=', 'vip')]"/>
+                    <filter
+                            name="Premium"
+                            string="Premium"
+                            domain="[('subscription_type', '=', 'premium')]"/>
+                    <filter
+                            name="Basic"
+                            string="Basic"
+                            domain="[('subscription_type', '=', 'basic')]"/>
+                    <filter
                             name="inactive"
                             string="Archived"
                             domain="[('active', '=', False)]"/>
-                    <filter
-                            name="VIP"
-                            string="VIP"
-                            domain="[('member_type', '=', 'VIP')]"/>
-
                 <group expand="0" string="Group By">
-                        <filter string="Member type" name="member_type" context="{'group_by': 'member_type'}"/>
+                        <filter string="Subscription type" name="subscription_type" context="{'group_by': 'subscription_type'}"/>
                 </group>
+                <field name="name"/>
+                <field name="subscription_type"/>
                 </search>
             </field>
         </record>
@@ -43,7 +52,17 @@
             <field name="model">sportify.member</field>
             <field name="arch" type="xml">
                 <form string="Members">
-                    <sheet>
+                     <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button name="action_open_courses"
+                                    class="oe_stat_button"
+                                    icon="fa-bars"
+                                    type="object"
+                                    string="Courses">
+                                <field name="course_count" string="Courses" widget="statinfo" />
+                            </button>
+                        </div>
+
                         <widget name="web_ribbon" title="Archived" bg_color="text-bg-danger" invisible="active"/>
                         <field name="photo" widget="image" class="oe_avatar"/>
                         <div class="oe_title">
@@ -60,6 +79,7 @@
                             <group>
                                 <field name="birth_date"/>
                                 <field name="age"/>
+                                <field name="subscription_type"/>
                             </group>
                         </group>
                         <notebook>
@@ -78,10 +98,12 @@
             <field name="name">sportify.member</field>
             <field name="model">sportify.member</field>
             <field name="arch" type="xml">
-                <kanban highlight_color="color" string="Members">
+                <kanban string="Members">
                     <templates>
                         <t t-name="card" class="flex-row">
                             <widget name="web_ribbon" title="Archived" bg_color="text-bg-danger" invisible="active"/>
+                            <widget name="web_ribbon" title="VIP" bg_color="text-bg-success" invisible="subscription_type != 'vip'"/>
+
 
                             <aside class="o_kanban_aside_full">
                                 <div class="o_kanban_image_fill position-relative w-100">
@@ -95,12 +117,10 @@
                                     <field name="name" class="mb-0 fw-bold fs-5"/>
                                 </div>
                                 <div class="mb-1">
-                                    <field name="phone"/>
+                                    <field name="subscription_type" class="fw-bold"/>
                                 </div>
                                 <div>
-                                    <p>Age:
-                                        <field name="age"/>
-                                    </p>
+                                    <field name="phone"/>
                                 </div>
                                 <footer>
                                     <div/>
