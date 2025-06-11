@@ -1,0 +1,9 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_sportify_subscription_user,sportify_subscription_user,model_sportify_subscription,base.group_user,1,1,1,0
+access_sportify_subscription_admin,sportify_subscription_admin,model_sportify_subscription,base.group_system,1,1,1,1
+access_sportify_member_user,sportify_member_user,model_sportify_member,base.group_user,1,1,1,0
+access_sportify_member_admin,sportify_member_admin,model_sportify_member,base.group_system,1,1,1,1
+access_sportify_trainer_user,sportify_trainer_user,model_sportify_trainer,base.group_user,1,1,1,0
+access_sportify_trainer_admin,sportify_trainer_admin,model_sportify_trainer,base.group_user,1,1,1,1
+access_sportify_course_user,sportify_course_user,model_sportify_course,base.group_user,1,1,1,0
+access_sportify_course_admin,sportify_course_admin,model_sportify_course,base.group_user,1,1,1,1
