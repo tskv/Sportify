@@ -1,20 +1,22 @@
 from odoo import models, fields, api
 
 
-class GroupCourses(models.Model):
-    _name = "group.courses"
+class SportifyCourses(models.Model):
+    _name = "sportify.courses"
     _description = "Cours Collectifs"
 
     name = fields.Char(required=True)
-    coach_id = fields.Many2one(string="Coach", required=True)
+    trainer_id = fields.Many2one(
+        string="Coach", required=True, comodel_name="sportify.trainer"
+    )
     date = fields.Date("Date")
-    duration = fields.Integer(string="Duration")
+    duration = fields.Integer(string="Duration", compute="_compute_duration")
     start_time = fields.Float("Start time", required=True)
     end_time = fields.Float("End time", required=True)
     max_number_participants = fields.Integer(string="Max number participants")
-    fitness_room_id = fields.Many2one(string="Fitness room")
-    membres_inscrits_ids = fields.Many2many(string="Membres inscrits")
-    nombre_membres_inscrits = fields.Integer(string="Nombre membres inscrits")
+    fitness_room = fields.Char(string="Fitness room")
+    members_ids = fields.Many2many(string="Membres inscrits")
+    number_members = fields.Integer(string="Nombre membres inscrits")
     notes = fields.Text("Notes")
     active = fields.Boolean("Actif", default=True)
 
