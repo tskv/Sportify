@@ -27,14 +27,60 @@
                 </kanban>
             </field>
         </record>
+        <!--list view-->
+        <record id="sportify_courses_view_list" model="ir.ui.view">
+            <field name="name">sportify.courses.list</field>
+            <field name="model">sportify.courses</field>
+            <field name="arch" type="xml">
+                <list string="Courses">
+                    <field name="name"/>
+                    <field name="trainer_id"/>
+                    <field name="date"/>
+                    <field name="duration"/>
+                    <field name="fitness_room"/>
+                    <field name="max_number_participants"/>
+                </list>
+            </field>
+        </record>
 
-    <record id="sportify_courses_action" model="ir.actions.act_window">
-        <field name="name">Courses</field>
-        <field name="res_model">sportify.courses</field>
-        <field name="view_mode">kanban,list,form</field>
-    </record>
+        <record id="sportify_courses_view_form" model="ir.ui.view">
+            <field name="name">sportify.courses.form</field>
+            <field name="model">sportify.courses</field>
+            <field name="arch" type="xml">
+                <form string="Courses">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="trainer_id"/>
+                            <field name="start_time"/>
+                            <field name="end_time"/>
+                            <field name="duration"/>
+                        </group>
+                        <notebook>
+                            <page name="info" string="Info">
+                                <field name="max_number_participants"/>
+                                <field name="fitness_room"/>
+                            </page>
+                            <page name="member" string="Member">
+                                <list>
+                                    <field name="member_ids"/>
+                                </list>
+                            </page>
+                            <page name="notes" string="Notes">
+                                <field name="notes"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="sportify_courses_action" model="ir.actions.act_window">
+            <field name="name">Courses</field>
+            <field name="res_model">sportify.courses</field>
+            <field name="view_mode">kanban,list,form</field>
+        </record>
 
-  <menuitem id="sportify_courses_menuitem" name="Courses"
+        <menuitem id="sportify_courses_menuitem" name="Courses"
                   parent="sportify_menu_root"
                   action="sportify_courses_action"  sequence="2"/>
    </data>
