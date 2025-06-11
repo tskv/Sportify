@@ -1,11 +1,17 @@
 from odoo import models, fields, api
 
-class SportifySubscribtion(models.Model):
+class SportifySubscription(models.Model):
     _name = 'sportify.subscription'
     _description = 'Abonnement Salle de Sport'
     _inherit = ['mail.thread']
 
-    name = fields.Char(string='Name',required=True)
+    @api.model
+    def get_default_name(self):
+        last_subscription =  self.search([], order="name desc", limit=1)
+        last_subscription_number = int(last_subscription[1:])
+        return 'S'+'0'+ str(last_subscription_number + 100)
+
+    name = fields.Char(string='Name', default=get_default_name, required=True)
     member_id = fields.Many2one(comodel_name='sportify.member',required=True)
     duration_months = fields.Integer(string='Durée (mois)')
     type = fields.Selection([
@@ -20,7 +26,8 @@ class SportifySubscribtion(models.Model):
         ('illimite', 'Illimité')
     ])
     start_date = fields.Date(string='Start date')
-    state= fields.Selection([
+    end_date = fields.Date(string='End date', compute = '_compute_end_date')
+    state = fields.Selection([
         ('activ', 'Active'),
         ('expired', 'Expired')
     ], default='activ')
@@ -40,7 +47,17 @@ class SportifySubscribtion(models.Model):
         defaults = super().default_get(fields_list)
         if 'start_date' in fields_list and not defaults.get('start_date'):
             defaults['start_date'] = fields.Date.today()
+        if 'duration_months' in fields_list and not defaults.get('duration_months'):
+            defaults['duration_months'] = 3
         return defaults
+
+    @api.depends('start_date','duration_months')
+    def _compute_end_date(self):
+        for record in self:
+            if record.start_date and record.duration_months:
+                record.end_date = fields.Date.add(record.start_date, months=record.duration_months)
+            else:
+                record.end_date = fields.Date.today()
 
     @api.model_create_multi
     def create(self, vals):
