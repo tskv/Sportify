@@ -1,20 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <odoo>
-  <record id="view_subscription_list" model="ir.ui.view">
-    <field name="name">sportify.subscription.list</field>
-    <field name="model">sportify.subscription</field>
-    <field name="type">list</field>
-    <field name="arch" type="xml">
-      <list>
-        <field name="name"/>
-        <field name="member_id"/>
-        <field name="duration_months"/>
-        <field name="type"/>
-        <field name="price"/>
-      </list>
-    </field>
-  </record>
+    <record id="view_subscription_list" model="ir.ui.view">
+        <field name="name">sportify.subscription.list</field>
+        <field name="model">sportify.subscription</field>
+        <field name="type">list</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="member_id"/>
+                <field name="type"/>
+                <field name="price"/>
+                <field name="start_date"/>
+                <field name="end_date"/>
+                <field name="duration_months"/>
+                <field name="state"/>
+            </list>
+        </field>
+    </record>
 
   <record id="view_subscription_form" model="ir.ui.view">
     <field name="name">sportify.subscription.form</field>
@@ -30,6 +33,9 @@
             <field name="type"/>
             <field name="access"/>
             <field name="price"/>
+            <field name="start_date"/>
+            <field name="end_date"/>
+            <field name="state"/>
             <field name="description"/>
           </group>
         </sheet>
@@ -38,13 +44,32 @@
     </field>
   </record>
 
-  <record id="action_subscription" model="ir.actions.act_window">
-    <field name="name">Subscriptions</field>
-    <field name="res_model">sportify.subscription</field>
-    <field name="view_mode">list,form</field>
-  </record>
 
-  <menuitem name="Subscription" id="sportify_subscription_menu"
+    <record model="ir.ui.view" id="sportify_subscription_calendar">
+        <field name="name">sportify.subscription.calendar</field>
+        <field name="model">sportify.subscription</field>
+        <field name="arch" type="xml">
+            <calendar date_start="start_date"
+                      date_stop="end_date"
+                      color="type"
+                      event_open_popup="true"
+                      quick_create="0"
+                      mode="year"
+            >
+                <field name="member_id"/>
+                <field name="type"/>
+            </calendar>
+        </field>
+    </record>
+
+
+    <record id="action_subscription" model="ir.actions.act_window">
+        <field name="name">Subscriptions</field>
+        <field name="res_model">sportify.subscription</field>
+        <field name="view_mode">list,form,calendar,search</field>
+    </record>
+
+    <menuitem name="Subscription" id="sportify_subscription_menu"
               parent="sportify_menu_root"
               action="action_subscription" sequence="3"/>
 </odoo>
