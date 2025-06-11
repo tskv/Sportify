@@ -1,6 +1,20 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <data>
+
+        <record model="ir.ui.view" id="sportify_course_search">
+            <field name="name">sportify.course.search</field>
+            <field name="model">sportify.course</field>
+            <field name="arch" type="xml">
+                <search string="Courses">
+                    <filter
+                            name="archived"
+                            string="Archived"
+                            domain="[('active', '=', False)]"/>
+                </search>
+            </field>
+        </record>
+
         <!-- kanban view -->
         <record id="view_sportify_course_kanban" model="ir.ui.view">
             <field name="name">sportify.course.kanban</field>
@@ -27,6 +41,7 @@
                 </kanban>
             </field>
         </record>
+
         <!--list view-->
         <record id="sportify_course_view_list" model="ir.ui.view">
             <field name="name">sportify.course.list</field>
@@ -39,6 +54,11 @@
                     <field name="duration"/>
                     <field name="fitness_room"/>
                     <field name="max_number_participants"/>
+                    <button class="btn btn-primary"
+                                name="cancel_course"
+                                type="object"
+                                string="Cancel course"
+                    />
                 </list>
             </field>
         </record>
@@ -78,7 +98,7 @@
         <record id="sportify_course_action" model="ir.actions.act_window">
             <field name="name">Course</field>
             <field name="res_model">sportify.course</field>
-            <field name="view_mode">kanban,list,form</field>
+            <field name="view_mode">kanban,list,form,search</field>
         </record>
 
         <menuitem id="sportify_course_menuitem" name="Course"
