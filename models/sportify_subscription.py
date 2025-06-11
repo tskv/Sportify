@@ -80,4 +80,3 @@ class SportifySubscription(models.Model):
             message = f"New subscription information: {record.member_id.name}, {record.type}, {record.price}€"
             record.message_post(body=message)
             return record
-

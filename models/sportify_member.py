@@ -21,10 +21,9 @@ class SportifyMember(models.Model):
     course_count = fields.Integer(compute='_compute_course_count')
     number_active_subscriptions = fields.Integer(compute='_compute_number_active_subscriptions', store='True')
 
-
-
     @api.model
     def default_get(self,fields_list):
+        """Set the inscription_date to today's date by default"""
         defaults = super().default_get(fields_list)
         if 'inscription_date' in fields_list and not defaults.get('inscription_date'):
             defaults['inscription_date'] = fields.Date.today()
@@ -39,8 +38,10 @@ class SportifyMember(models.Model):
             else:
                 record.age = 0
 
-    @api.depends('subscription_ids')
+    @api.depends('subscription_ids', 'subscription_ids.type')
     def _compute_member_type(self):
+        """Necessary only if a member can have more than one ongoing subscriptions (to be fixed in the next version).
+        Returns the best type among all the subscriptions of the member"""
         for record in self:
             record.member_type = 'Basic'
             for subscription in record.subscription_ids:
@@ -50,10 +51,9 @@ class SportifyMember(models.Model):
                 if subscription.state == 'ongoing' and subscription.type == 'premium':
                     record.member_type = 'Premium'
 
-
-
     @api.depends('subscription_ids', 'subscription_ids.state')
     def _compute_number_active_subscriptions(self):
+        """Returns the number of active subscriptions. In the next version should always be 1 or 0"""
         for record in self:
             number_active_subscriptions = 0
             for subscription in record.subscription_ids:
@@ -61,9 +61,9 @@ class SportifyMember(models.Model):
                     number_active_subscriptions += 1
             record.number_active_subscriptions = number_active_subscriptions
 
-
     @api.model_create_multi
     def create(self, vals):
+        """Welcome message in chatter"""
         record = super().create(vals)
         message = f"Welcome to Sportify, {record.name}!"
         record.message_post(body=message)
@@ -75,6 +75,7 @@ class SportifyMember(models.Model):
             member.course_count = len(member.course_ids)
 
     def action_open_courses(self):
+        """Action for a statbutton: opens list of courses for the member"""
         self.ensure_one()
         action = {
             'type': 'ir.actions.act_window',
@@ -86,16 +87,12 @@ class SportifyMember(models.Model):
         }
         return action
 
-
     @api.model
     def _action_cron_subscription_expired_soon(self):
+        """Scheduled action: sends a message if the subscription expires in 1 week"""
         for member in self.search([]):
             for subscription in member.subscription_ids:
                 if  fields.Date.add(subscription.end_date,weeks=-1) == fields.Date.today():
                     message_text = "The subscription expires in 1 week"
                     member.message_post(body=message_text)
-
-
-
-
 
