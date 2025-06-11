@@ -31,7 +31,6 @@ class SportifyMember(models.Model):
 
     @api.depends('birth_date')
     def _compute_age(self):
-        """Compute member's age"""
         for record in self:
             if record.birth_date:
                 today = fields.Date.today()
