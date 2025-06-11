@@ -26,9 +26,11 @@ class SportifyTrainer(models.Model):
             record.courses_count = len(record.course_ids)
 
     def action_get_courses(self):
+        self.ensure_one()
         return {
             "name": "Trainer courses",
             "view_mode": "list,form",
             "res_model": "sportify.course",
             "type": "ir.actions.act_window",
+            'domain': [('id', 'in', self.course_ids.ids)],
         }
