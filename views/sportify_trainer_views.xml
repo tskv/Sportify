@@ -17,33 +17,6 @@
                 </search>
             </field>
         </record>
-        <!-- kanban view -->
-        <record id="view_sportify_trainer_kanban" model="ir.ui.view">
-            <field name="name">sportify.trainer.kanban</field>
-            <field name="model">sportify.trainer</field>
-            <field name="priority" eval="100"/>
-            <field name="arch" type="xml">
-                <kanban class="o_kanban_mobile" archivable="false" js_class="crm_kanban" sample="1">
-                    <!-- an example i keep in case of need <progressbar field="activity_state" colors='{"planned": "success", "today": "warning", "overdue": "danger"}'/>-->
-                    <templates>
-                        <t t-name="card" class="flex-row">
-                            <aside class="o_kanban_aside_full">
-                                <div class="o_kanban_image_fill position-relative w-100">
-                                    <field name="trainer_photo" alt="Trainer image" class="h-100" widget="image"
-                                           options="{'img_class': 'object-fit-cover'}"/>
-                                </div>
-                            </aside>
-                            <main class="ps-2 ps-md-0">
-                                <field name="name" class="fw-bold fs-5"/>
-                                <!--                            <field name="phone" widget="many2many_tags" options="{'color_field': 'color'}"/>-->
-                                <field name="phone"/>
-                                <field name="speciality"/>
-                            </main>
-                        </t>
-                    </templates>
-                </kanban>
-            </field>
-        </record>
         <!--list view-->
         <record id="sportify_trainer_view_list" model="ir.ui.view">
             <field name="name">sportify.trainer.list</field>
@@ -72,17 +45,47 @@
                                 </div>
                             </button>
                         </div>
+                        <field name="trainer_photo" widget="image" class="oe_avatar"/>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" placeholder="New trainer"/>
+                            </h1>
+                        </div>
                         <group>
-                            <field name="name"/>
                             <field name="email"/>
                             <field name="phone"/>
                             <field name="speciality"/>
-                            <field name="trainer_photo" alt="Trainer image" class="h-100" widget="image"
-                                           options="{'img_class': 'object-fit-cover'}"/>
                         </group>
                     </sheet>
                     <chatter/>
                 </form>
+            </field>
+        </record>
+        <!-- kanban view -->
+        <record id="view_sportify_trainer_kanban" model="ir.ui.view">
+            <field name="name">sportify.trainer.kanban</field>
+            <field name="model">sportify.trainer</field>
+            <field name="priority" eval="100"/>
+            <field name="arch" type="xml">
+                <kanban class="o_kanban_mobile" archivable="false" js_class="crm_kanban" sample="1">
+                    <!-- an example i keep in case of need <progressbar field="activity_state" colors='{"planned": "success", "today": "warning", "overdue": "danger"}'/>-->
+                    <templates>
+                        <t t-name="card" class="flex-row">
+                            <aside class="o_kanban_aside_full">
+                                <div class="o_kanban_image_fill position-relative w-100">
+                                    <field name="trainer_photo" alt="Trainer image" class="h-100" widget="image"
+                                           options="{'img_class': 'object-fit-cover'}"/>
+                                </div>
+                            </aside>
+                            <main class="ps-2 ps-md-0">
+                                <field name="name" class="fw-bold fs-5"/>
+                                <!--                            <field name="phone" widget="many2many_tags" options="{'color_field': 'color'}"/>-->
+                                <field name="phone"/>
+                                <field name="speciality"/>
+                            </main>
+                        </t>
+                    </templates>
+                </kanban>
             </field>
         </record>
         <!--action-->

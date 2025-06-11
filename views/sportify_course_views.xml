@@ -15,33 +15,6 @@
             </field>
         </record>
 
-        <!-- kanban view -->
-        <record id="view_sportify_course_kanban" model="ir.ui.view">
-            <field name="name">sportify.course.kanban</field>
-            <field name="model">sportify.course</field>
-            <field name="priority" eval="100"/>
-            <field name="arch" type="xml">
-                <kanban class="o_kanban_mobile" archivable="false" js_class="crm_kanban" sample="1">
-                    <templates>
-                        <t t-name="card" class="flex-row">
-                            <aside class="o_kanban_aside_full">
-                                <div class="o_kanban_image_fill position-relative w-100">
-                                    <field name="course_photo" alt="Course image" class="h-100" widget="image"
-                                           options="{'img_class': 'object-fit-cover'}"/>
-                                </div>
-                            </aside>
-                            <main class="ps-2 ps-md-0">
-                                <field name="name" class="fw-bold fs-5"/>
-                                <field name="trainer_id"/>
-                                <field name="max_number_participants"/>
-                                <field name="fitness_room"/>
-                            </main>
-                        </t>
-                    </templates>
-                </kanban>
-            </field>
-        </record>
-
         <!--list view-->
         <record id="sportify_course_view_list" model="ir.ui.view">
             <field name="name">sportify.course.list</field>
@@ -69,8 +42,14 @@
             <field name="arch" type="xml">
                 <form string="Course">
                     <sheet>
+                        <widget name="web_ribbon" title="Archived" bg_color="text-bg-danger" invisible="active"/>
+                        <field name="course_photo" widget="image" class="oe_avatar"/>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" placeholder="New course"/>
+                            </h1>
+                        </div>
                         <group>
-                            <field name="name"/>
                             <field name="trainer_id"/>
                             <field name="start_time"/>
                             <field name="end_time"/>
@@ -92,6 +71,41 @@
                         </notebook>
                     </sheet>
                 </form>
+            </field>
+        </record>
+
+        <!-- kanban view -->
+        <record id="view_sportify_course_kanban" model="ir.ui.view">
+            <field name="name">sportify.course.kanban</field>
+            <field name="model">sportify.course</field>
+            <field name="priority" eval="100"/>
+            <field name="arch" type="xml">
+                <kanban class="o_kanban_mobile" archivable="false" js_class="crm_kanban" sample="1">
+                    <templates>
+                        <t t-name="card" class="flex-row">
+                            <aside class="o_kanban_aside_full">
+                                <div class="o_kanban_image_fill position-relative w-100">
+                                    <field name="course_photo" alt="Course image" class="h-100" widget="image"
+                                           options="{'img_class': 'object-fit-cover'}"/>
+                                </div>
+                            </aside>
+                            <main class="ps-2 ps-md-0">
+                                <div class="mb-1">
+                                    <field name="name" class="fw-bold fs-5"/>
+                                </div>
+                                <div class="mb-1">
+                                    <field name="trainer_id"/>
+                                </div>
+                                <div>
+                                    Max. number of participants:  <field name="max_number_participants"/>
+                                </div>
+                                <div>
+                                    Room: <field name="fitness_room"/>
+                                </div>
+                            </main>
+                        </t>
+                    </templates>
+                </kanban>
             </field>
         </record>
 

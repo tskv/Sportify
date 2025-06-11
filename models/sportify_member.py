@@ -40,7 +40,7 @@ class SportifyMember(models.Model):
 
     @api.depends('subscription_ids', 'subscription_ids.type', 'subscription_ids.state')
     def _compute_subscription_type(self):
-        """Returns the type of the member's active subscription. If the member has no active subscriptions: 'basic'. """
+        """Returns the type of the member's active subscription. If the member has no active subscriptions, returns 'basic'. """
         for record in self:
             record.subscription_type = 'basic'
             for subscription in record.subscription_ids:
