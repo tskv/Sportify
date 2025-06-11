@@ -16,5 +16,5 @@
         'views/sportify_subscription_views.xml',
         'views/sportify_course_views.xml',
         'data/ir_cron.xml',
-],
+    ],
 }
