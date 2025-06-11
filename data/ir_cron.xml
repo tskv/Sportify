@@ -6,11 +6,11 @@
             <field name="name">Soon expiring subscription</field>
             <field name="model_id" ref="model_sportify_member"/>
             <field name="state">code</field>
-            <field name="code">model.action_cron_subscription_expired_soon()</field>
-            <field name="active" eval="True"/>
+            <field name="code">model._action_cron_subscription_expired_soon()</field>
             <field name="interval_number">1</field>
             <field name="interval_type">days</field>
         </record>
+
 
     </data>
 </odoo>
