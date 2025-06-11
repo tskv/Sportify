@@ -20,6 +20,7 @@ class SportifyMember(models.Model):
     member_type = fields.Char(string='Member type', compute = '_compute_member_type', store='True')
     course_ids = fields.Many2many(string="Courses", comodel_name="sportify.course")
     course_count = fields.Integer(compute='_compute_course_count')
+    number_active_subscriptions = fields.Integer(compute='_compute_number_active_subscriptions', store='True')
 
     @api.model
     def default_get(self,fields_list):
@@ -37,7 +38,7 @@ class SportifyMember(models.Model):
             else:
                 record.age = 0
 
-    @api.depends('subscription_ids')
+    @api.depends('subscription_ids', 'subscription_ids.state')
     def _compute_member_type(self):
         for record in self:
             best_type = 'Basic'
@@ -51,13 +52,22 @@ class SportifyMember(models.Model):
             record.member_type = best_type
 
 
-    @api.depends('subscription_ids')
+    @api.depends('subscription_ids', 'subscription_ids.state')
     def _compute_color(self):
         for record in self:
             if record.member_type == 'VIP':
                 record.color = 7
             else:
                 record.color = 0
+
+    @api.depends('subscription_ids', 'subscription_ids.state')
+    def _compute_number_active_subscriptions(self):
+        for record in self:
+            number_active_subscriptions = 0
+            for subscription in record.subscription_ids:
+                if subscription.state == 'active':
+                    number_active_subscriptions += 1
+            record.number_active_subscriptions = number_active_subscriptions
 
 
     @api.model_create_multi
@@ -78,7 +88,7 @@ class SportifyMember(models.Model):
             'type': 'ir.actions.act_window',
             'name': 'Courses',
             'res_model': 'sportify.course',
-            'domain': [('id', 'in', self.course_ids)],
+            'domain': [('id', 'in', self.course_ids.ids)],
             'views': [(False, 'list')],
             'context': {}
         }

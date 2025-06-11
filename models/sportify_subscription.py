@@ -59,10 +59,30 @@ class SportifySubscription(models.Model):
                 record.end_date = fields.Date.add(record.start_date, months=record.duration_months)
             else:
                 record.end_date = fields.Date.today()
+    '''
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            member_active_subscriptions = self.search([('member_id','=',self.member_id.id)])
+            if not member_active_subscriptions or len(member_active_subscriptions) < 1 :
+                record = super().create(vals)
+                message = f"New subscription information: {record.member_id.name}, {record.type}, {record.price}€,{len(member_active_subscriptions)},{self.member_id.id}"
+                record.message_post(body=message)
+                return record
+            else:
+                message = "This member already has an active subscription"
+                self.message_post(body=message)
+    '''
 
     @api.model_create_multi
-    def create(self, vals):
-        record = super().create(vals)
-        message = f"New subscription information: {record.member_id.name}, {record.type}, {record.price}€"
-        record.message_post(body=message)
-        return record
+    def create(self, vals_list):
+        for vals in vals_list:
+            member = self.env['sportify.member'].search([('id', '=', vals.get('member_id'))])
+            if member.number_active_subscriptions < 1:
+                record = super().create(vals)
+                message = f"New subscription information: {record.member_id.name}, {record.type}, {record.price}€,{vals.get('member_id')},{member.number_active_subscriptions }"
+                record.message_post(body=message)
+                return record
+            else:
+                message = "This member already has an active subscription"
+                member.message_post(body=message)
