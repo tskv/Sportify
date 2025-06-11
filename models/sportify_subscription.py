@@ -16,7 +16,7 @@ class SportifySubscription(models.Model):
    # number = fields.Integer(default=get_default_number)
     name = fields.Char(string='Name', default=get_default_name, required=True)
     member_id = fields.Many2one(comodel_name='sportify.member',required=True)
-    duration_months = fields.Integer(string='Durée (mois)')
+    duration_months = fields.Integer(string='Duration (months)')
     type = fields.Selection([
         ('basic', 'Basic'),
         ('premium', 'Premium'),
@@ -24,9 +24,9 @@ class SportifySubscription(models.Model):
     ], required=True)
     price = fields.Float()
     access = fields.Selection([
-        ('10j', '10 jours'),
-        ('30j', '30 jours'),
-        ('illimite', 'Illimité')
+        ('10j', '10 days'),
+        ('30j', '30 days'),
+        ('illimite', 'Unlimited')
     ])
     start_date = fields.Date(string='Start date')
     end_date = fields.Date(string='End date', compute = '_compute_end_date')
