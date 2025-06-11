@@ -19,30 +19,30 @@
         </field>
     </record>
 
-    <record id="view_subscription_form" model="ir.ui.view">
-        <field name="name">sportify.subscription.form</field>
-        <field name="model">sportify.subscription</field>
-        <field name="type">form</field>
-        <field name="arch" type="xml">
-            <form>
-                <sheet>
-                    <group>
-                        <field name="name"/>
-                        <field name="member_id"/>
-                        <field name="duration_months"/>
-                        <field name="type"/>
-                        <field name="access"/>
-                        <field name="price"/>
-                        <field name="start_date"/>
-                        <field name="end_date"/>
-                        <field name="state"/>
-                        <field name="description"/>
-                    </group>
-                </sheet>
-                <chatter/>
-            </form>
-        </field>
-    </record>
+  <record id="view_subscription_form" model="ir.ui.view">
+    <field name="name">sportify.subscription.form</field>
+    <field name="model">sportify.subscription</field>
+    <field name="type">form</field>
+    <field name="arch" type="xml">
+      <form>
+        <sheet>
+          <group>
+            <field name="name"/>
+            <field name="member_id"/>
+            <field name="duration_months"/>
+            <field name="type"/>
+            <field name="access"/>
+            <field name="price"/>
+            <field name="start_date"/>
+            <field name="end_date"/>
+            <field name="state"/>
+            <field name="description"/>
+          </group>
+        </sheet>
+        <chatter/>
+      </form>
+    </field>
+  </record>
 
 
     <record model="ir.ui.view" id="sportify_subscription_calendar">
