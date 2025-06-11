@@ -16,7 +16,7 @@ class SportifyMember(models.Model):
     inscription_date = fields.Date(string='Inscription date')
     photo = fields.Binary(string='Photo')
     age = fields.Integer(string='Age', compute = '_compute_age')
-    member_type = fields.Char(string='Subscription type', compute = '_compute_member_type', store='True')
+    subscription_type = fields.Char(string='Subscription type', compute = '_compute_subscription_type', store='True')
     course_ids = fields.Many2many(string="Courses", comodel_name="sportify.course")
     course_count = fields.Integer(compute='_compute_course_count')
     number_active_subscriptions = fields.Integer(compute='_compute_number_active_subscriptions', store='True')
@@ -38,22 +38,19 @@ class SportifyMember(models.Model):
             else:
                 record.age = 0
 
-    @api.depends('subscription_ids', 'subscription_ids.type')
-    def _compute_member_type(self):
-        """Necessary only if a member can have more than one ongoing subscriptions (to be fixed in the next version).
-        Returns the best type among all the subscriptions of the member"""
+    @api.depends('subscription_ids', 'subscription_ids.type', 'subscription_ids.state')
+    def _compute_subscription_type(self):
+        """Returns the type of the member's active subscription. If the member has no active subscriptions: 'basic'. """
         for record in self:
-            record.member_type = 'Basic'
+            record.subscription_type = 'basic'
             for subscription in record.subscription_ids:
-                if subscription.state == 'ongoing' and subscription.type == 'vip':
-                    record.member_type = 'VIP'
+                if subscription.state == 'ongoing':
+                    record.subscription_type = subscription.type
                     break
-                if subscription.state == 'ongoing' and subscription.type == 'premium':
-                    record.member_type = 'Premium'
 
     @api.depends('subscription_ids', 'subscription_ids.state')
     def _compute_number_active_subscriptions(self):
-        """Returns the number of active subscriptions. In the next version should always be 1 or 0"""
+        """Returns the number of active subscriptions. Is checked before creating new subscription"""
         for record in self:
             number_active_subscriptions = 0
             for subscription in record.subscription_ids:
@@ -71,6 +68,7 @@ class SportifyMember(models.Model):
 
     @api.depends('course_ids')
     def _compute_course_count(self):
+        """ Number of courses the member has signed up for. Is used in statbutton. """
         for member in self:
             member.course_count = len(member.course_ids)
 

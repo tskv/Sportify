@@ -8,27 +8,26 @@
             <field name="arch" type="xml">
                 <search string="Members">
                     <filter
-                            name="inactive"
-                            string="Archived"
-                            domain="[('active', '=', False)]"/>
-                    <filter
                             name="VIP"
                             string="VIP"
-                            domain="[('member_type', '=', 'VIP')]"/>
+                            domain="[('subscription_type', '=', 'vip')]"/>
                     <filter
                             name="Premium"
                             string="Premium"
-                            domain="[('member_type', '=', 'Premium')]"/>
+                            domain="[('subscription_type', '=', 'premium')]"/>
                     <filter
                             name="Basic"
                             string="Basic"
-                            domain="[('member_type', '=', 'Basic')]"/>
-
+                            domain="[('subscription_type', '=', 'basic')]"/>
+                    <filter
+                            name="inactive"
+                            string="Archived"
+                            domain="[('active', '=', False)]"/>
                 <group expand="0" string="Group By">
-                        <filter string="Subscription type" name="member_type" context="{'group_by': 'member_type'}"/>
+                        <filter string="Subscription type" name="subscription_type" context="{'group_by': 'subscription_type'}"/>
                 </group>
                 <field name="name"/>
-                <field name="member_type"/>
+                <field name="subscription_type"/>
                 </search>
             </field>
         </record>
@@ -80,7 +79,7 @@
                             <group>
                                 <field name="birth_date"/>
                                 <field name="age"/>
-                                <field name="member_type"/>
+                                <field name="subscription_type"/>
                             </group>
                         </group>
                         <notebook>
@@ -103,7 +102,7 @@
                     <templates>
                         <t t-name="card" class="flex-row">
                             <widget name="web_ribbon" title="Archived" bg_color="text-bg-danger" invisible="active"/>
-                            <widget name="web_ribbon" title="VIP" bg_color="text-bg-success" invisible="member_type != 'VIP'"/>
+                            <widget name="web_ribbon" title="VIP" bg_color="text-bg-success" invisible="subscription_type != 'vip'"/>
 
 
                             <aside class="o_kanban_aside_full">
@@ -118,7 +117,7 @@
                                     <field name="name" class="mb-0 fw-bold fs-5"/>
                                 </div>
                                 <div class="mb-1">
-                                    <field name="member_type" class="fw-bold"/>
+                                    <field name="subscription_type" class="fw-bold"/>
                                 </div>
                                 <div>
                                     <field name="phone"/>
