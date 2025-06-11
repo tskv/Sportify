@@ -10,10 +10,10 @@
     'installable': True,
     'images': ['static/description/icon.png'],
     'data': [
-    'security/ir.model.access.csv',
-    'views/sportify_member_views.xml',
-    'views/sportify_trainer_views.xml',
-    'views/sportify_subscription_views.xml',
-    'views/sportify_trainer_views.xml',
+        'security/ir.model.access.csv',
+        'views/sportify_member_views.xml',
+        'views/sportify_trainer_views.xml',
+        'views/sportify_subscription_views.xml',
+        'data/ir_cron.xml',
 ],
 }

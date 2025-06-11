@@ -53,11 +53,10 @@ class SportifyMember(models.Model):
         return record
 
     @api.model
-    def action_cron_subscription_expired_soon(self):
+    def _action_cron_subscription_expired_soon(self):
         for member in self.search([]):
-            if member.subscription_id:
-                expire_date = fields.Date.add(member.inscription_date, months=member.subscription_id.duration_months)
-                if fields.Date.today() ==  fields.Date.add(expire_date,weeks=-1):
+            for subscription in member.subscription_ids:
+                if  fields.Date.add(subscription.end_date,weeks=-1) == fields.Date.today():
                     message_text = "The subscription expires in 1 week"
                     member.message_post(body=message_text)
 

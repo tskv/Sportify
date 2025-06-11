@@ -2,15 +2,16 @@ from odoo import models, fields, api
 
 class SportifySubscription(models.Model):
     _name = 'sportify.subscription'
-    _description = 'Abonnement Salle de Sport'
+    _description = 'Sportify Subscription'
     _inherit = ['mail.thread']
+
 
     @api.model
     def get_default_name(self):
         last_subscription =  self.search([], order="name desc", limit=1)
-        last_subscription_number = int(last_subscription[1:])
-        return 'S'+'0'+ str(last_subscription_number + 100)
+        return 'S'+str(f"{int(last_subscription.name[1:])+1:04}")
 
+   # number = fields.Integer(default=get_default_number)
     name = fields.Char(string='Name', default=get_default_name, required=True)
     member_id = fields.Many2one(comodel_name='sportify.member',required=True)
     duration_months = fields.Integer(string='Durée (mois)')
@@ -62,6 +63,6 @@ class SportifySubscription(models.Model):
     @api.model_create_multi
     def create(self, vals):
         record = super().create(vals)
-        message = f"Nouvel abonnement créé : {record.member_id.name}, {record.type}, {record.price}€"
+        message = f"New subscription information: {record.member_id.name}, {record.type}, {record.price}€"
         record.message_post(body=message)
         return record

@@ -52,11 +52,9 @@
             <calendar date_start="start_date"
                       date_stop="end_date"
                       color="type"
-                      event_open_popup="true"
                       quick_create="0"
                       mode="year"
             >
-                <field name="member_id"/>
                 <field name="type"/>
             </calendar>
         </field>
