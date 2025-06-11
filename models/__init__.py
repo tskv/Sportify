@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
 
 
-from . import sportify_member, sportify_trainer, sportify_subscription
-
-
+from . import sportify_member, sportify_trainer, sportify_subscription, sportify_courses
