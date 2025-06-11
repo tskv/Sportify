@@ -11,6 +11,14 @@
                             name="inactive"
                             string="Archived"
                             domain="[('active', '=', False)]"/>
+                    <filter
+                            name="VIP"
+                            string="VIP"
+                            domain="[('member_type', '=', 'VIP')]"/>
+
+                <group expand="0" string="Group By">
+                        <filter string="Member type" name="member_type" context="{'group_by': 'member_type'}"/>
+                </group>
                 </search>
             </field>
         </record>

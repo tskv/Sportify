@@ -16,7 +16,8 @@ class SportifyMember(models.Model):
     inscription_date = fields.Date(string='Inscription date')
     photo = fields.Binary(string='Photo')
     age = fields.Integer(string='Age', compute = '_compute_age')
-    color = fields.Integer(compute = '_compute_color')
+    color = fields.Integer(compute = '_compute_color', store='True')
+    member_type = fields.Char(string='Member type', compute = '_compute_member_type', store='True')
 
     @api.model
     def default_get(self,fields_list):
@@ -35,14 +36,26 @@ class SportifyMember(models.Model):
                 record.age = 0
 
     @api.depends('subscription_ids')
-    def _compute_color(self):
+    def _compute_member_type(self):
         for record in self:
-            record.color = 0
+            best_type = 'Basic'
             if record.subscription_ids:
                 for subscription in record.subscription_ids:
-                    if subscription.type == 'vip':
-                        record.color = 7
+                    if subscription.state == 'active' and subscription.type == 'vip':
+                        best_type = 'VIP'
                         break
+                    if subscription.state == 'active' and subscription.type == 'premium' and best_type != 'VIP':
+                        best_type = 'Premium'
+            record.member_type = best_type
+
+
+    @api.depends('subscription_ids')
+    def _compute_color(self):
+        for record in self:
+            if record.member_type == 'VIP':
+                record.color = 7
+            else:
+                record.color = 0
 
 
     @api.model_create_multi
