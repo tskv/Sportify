@@ -5,6 +5,7 @@ class SportifyTrainer(models.Model):
     _name = "sportify.trainer"
     _description = "sport center management"
     _inherit = ['mail.thread']
+    # même remarque que les autres, mail.activity.mixin
 
     name = fields.Char(string="Name", required=True)
     email = fields.Char(string="E-mail", required=True)

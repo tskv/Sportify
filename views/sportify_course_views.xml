@@ -24,6 +24,7 @@
                     <field name="name"/>
                     <field name="trainer_id"/>
                     <field name="date"/>
+<!--                    rajouter éventuellement un widget date-->
                     <field name="duration"/>
                     <field name="fitness_room"/>
                     <field name="max_number_participants"/>
@@ -32,6 +33,7 @@
                                 type="object"
                                 string="Cancel course"
                     />
+<!--                    on aime pas trop mettre des boutons dans la vue liste, souvent ceci se mettra seulement dans la vue form-->
                 </list>
             </field>
         </record>
@@ -52,6 +54,7 @@
                         <group>
                             <field name="trainer_id"/>
                             <field name="start_time"/>
+<!--                            widget date-->
                             <field name="end_time"/>
                             <field name="duration"/>
                         </group>
