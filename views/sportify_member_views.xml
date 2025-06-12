@@ -41,6 +41,7 @@
                     <field name="mail"/>
                     <field name="phone"/>
                     <field name="birth_date"/>
+<!--                    widget date-->
                     <field name="subscription_ids"/>
                     <field name="inscription_date"/>
                 </list>

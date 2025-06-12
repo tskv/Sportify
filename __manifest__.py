@@ -4,6 +4,8 @@
 {
     'name': 'sportify',
     'version': '1.0',
+    # la version devrait aussi montrer la version odoo sur laquelle le module tourne
+    # ici vous êtes en v18 donc la version devrait ressembler à : 18.1 ou 18.0.0.1
     'category': 'Sport',
     'depends': ['base', 'mail'],
     'application': True,
@@ -16,5 +18,6 @@
         'views/sportify_subscription_views.xml',
         'views/sportify_course_views.xml',
         'data/ir_cron.xml',
+        # les data se mettent souvent en premier
     ],
 }

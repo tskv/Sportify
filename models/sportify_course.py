@@ -4,6 +4,7 @@ from odoo import models, fields, api
 class SportifyCourse(models.Model):
     _name = "sportify.course"
     _description = "Cours Collectifs"
+    # description en anglais
 
     name = fields.Char(required=True)
     trainer_id = fields.Many2one(string="Coach", comodel_name="sportify.trainer")
@@ -18,7 +19,7 @@ class SportifyCourse(models.Model):
     )
     number_members = fields.Integer(string="Total Member")
     notes = fields.Text("Notes")
-    active = fields.Boolean("Activ", default=True)
+    active = fields.Boolean("Active", default=True)
     member_count = fields.Integer("Number of Member", compute="_compute_total_member")
     course_photo = fields.Image("Course Photo")
 
@@ -32,6 +33,7 @@ class SportifyCourse(models.Model):
         for record in self:
             if record.start_time and record.end_time:
                 record.duration = max(0, record.end_time - record.start_time)
+                # une raison d'utiliser max ? même si c'est 0, la soustraction nous donnera le bon résultat
             else:
                 record.duration = 0
 

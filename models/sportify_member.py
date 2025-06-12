@@ -6,6 +6,8 @@ class SportifyMember(models.Model):
     _rec_name = 'name'
     _description = 'Member'
     _inherit = ['mail.thread']
+    # pour le chatter, on hérite toujours comme ceci : _inherit = ['mail.thread', 'mail.activity.mixin']
+    # sans le 2e modèle, on aura pas toutes les fonctionnalités du chatter
 
     active = fields.Boolean(string='Active', default=True)
     name = fields.Char(string='Name', required=True)
@@ -28,6 +30,10 @@ class SportifyMember(models.Model):
         if 'inscription_date' in fields_list and not defaults.get('inscription_date'):
             defaults['inscription_date'] = fields.Date.today()
         return defaults
+    # c'est correct mais il y a plus facile pour mettre ce défaut.
+    # On peut le mettre directement dans le champ :
+    # exemple :     date = fields.Date(string='Reversal date', default=fields.Date.context_today)
+
 
     @api.depends('birth_date')
     def _compute_age(self):
@@ -47,6 +53,24 @@ class SportifyMember(models.Model):
                 if subscription.state == 'ongoing':
                     record.subscription_type = subscription.type
                     break
+        # Il n'y a pas de raison de faire un break (on essaye de les éviter au maximum)
+        # + on peut éviter la boucle ce qui est plus performant en utilisant un filtered ()
+        # on le verra en détails par la suite mais ça ressemblerait à ça :
+
+        # for record in self:
+        #     ongoing_sub_subscription = record.subscription_ids.filtered(lambda s: s.state == 'ongoing')
+        #     if ongoing_sub_subscription:
+        #         record.subscription_type = ongoing_sub_subscription[0].type
+        #     else:
+        #         record.subscription_type = 'basic'
+
+        # et en contractant :
+
+        # for record in self:
+        #     if ongoing_sub_subscription := record.subscription_ids.filtered(lambda s: s.state == 'ongoing'):
+        #         record.subscription_type = ongoing_sub_subscription[0].type
+        #     else:
+        #         record.subscription_type = 'basic'
 
     @api.depends('subscription_ids', 'subscription_ids.state')
     def _compute_number_active_subscriptions(self):
@@ -57,11 +81,14 @@ class SportifyMember(models.Model):
                 if subscription.state == 'ongoing':
                     number_active_subscriptions += 1
             record.number_active_subscriptions = number_active_subscriptions
+        # ici, vous pourriez également utiliser un filtered afin de ne pas faire de boucles
+        # => len(record.subscription_ids.filtered(lambda s:s.state == 'ongoing'))
 
     @api.model_create_multi
     def create(self, vals):
         """Welcome message in chatter"""
         record = super().create(vals)
+        # on aura tendance à écrire 'vals_list' comme paramètre pour ne pas oublier que c'est une liste de records qu'on reçoit
         message = f"Welcome to Sportify, {record.name}!"
         record.message_post(body=message)
         return record
@@ -86,6 +113,7 @@ class SportifyMember(models.Model):
         return action
 
     @api.model
+    # pourquoi le @api.model ?
     def _action_cron_subscription_expired_soon(self):
         """Scheduled action: sends a message if the subscription expires in 1 week"""
         for member in self.search([]):
